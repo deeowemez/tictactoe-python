@@ -148,7 +148,7 @@ def draw_move(board, free_space):
 
 def new_game():
     if_new = input("Do you want to play another game? (Y/N) ").upper()
-    print(if_new)
+    # print(if_new)
     if if_new == "Y":
         initialize_board()
     else: return False
@@ -169,7 +169,6 @@ def start_game(board):
                 break
         
         user_move = enter_move(board, free_space)
-        print(user_move)
         vic_user = victory_for(board, "O")
         
         #User Winner
@@ -183,7 +182,6 @@ def start_game(board):
             if not game:
                 break
 
-        print("free", free_space)
         user_move = draw_move(board, free_space)
         vic_comp = victory_for(board, "X")
 
@@ -215,8 +213,7 @@ def initialize_board():
     h = board[2][1] = "8"
     i = board[2][2] = "9"
 
-    print("board: ", board)
-
+    # print("board: ", board)
     display_board(a,b,c,d,e,f,g,h,i)
     start_game(board)
 
