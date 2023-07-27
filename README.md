@@ -13,4 +13,4 @@ How it was created:
 	*don't implement any form of artificial intelligence − a random field choice made by the computer is good enough for the game.
 
 
-** file was created before learning git version control and thus the lack of commits
+** file was created before learning git version control and thus the lack of first commits

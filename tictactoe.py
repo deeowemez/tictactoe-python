@@ -49,8 +49,8 @@ def make_list_of_free_fields(board):
 ##    print("Free Fields: ", free_fields)
     return free_fields
 
-user_move = '1', '2', '3', '4', 'X', '6', '7', '8', '9'
-def enter_move(board):
+# global user_move = '1', '2', '3', '4', 'X', '6', '7', '8', '9'
+def enter_move(board, free_space):
     # The function accepts the board's current status, asks the user about their move, 
     # checks the input, and updates the board according to the user's decision.
     while True:
@@ -99,14 +99,14 @@ def victory_for(board, sign):
         (board[2][0] == sign and board[1][1] == sign and board[0][2] == sign)
     ):
         if sign == "O":
-            print("Congratulations! \nPlayer: User -- You won!")
+            print(f"Congratulations! {user_name}, You won!")
         if sign == "X":
-            print("Congratulations! \nPlayer: Computer -- You won!")
+            print("The computer won this round. \nBetter luck next time")
         return True
     else: return False
 
 
-def draw_move(board):
+def draw_move(board, free_space):
     # The function draws the computer's move and updates the board.
     from random import randrange
     valid_move = False
@@ -146,27 +146,61 @@ def draw_move(board):
             continue
 
 
+def new_game():
+    if_new = input("Do you want to play another game? (Y/N) ").upper()
+    print(if_new)
+    if if_new == "Y":
+        initialize_board()
+    else: return False
+        
+
 def start_game(board):
-    ##START OF GAME
+    global user_name
+    user_name = input("Enter your username: ")
     while True:
         global free_space
         global user_move
         free_space = make_list_of_free_fields(board)
-        if free_space == False: break
-        user_move = enter_move(board)
-        vic_user = victory_for(board, "O")
-        if vic_user == True: break
-    ##    print("User move: ", user_move)
-        free_space = make_list_of_free_fields(board)
-        user_move = draw_move(board)
-        vic_comp = victory_for(board, "X")
-        if vic_comp == True: break
 
+        #Draw 
+        if free_space == False: 
+            game = new_game()
+            if not game:
+                break
+        
+        user_move = enter_move(board, free_space)
+        print(user_move)
+        vic_user = victory_for(board, "O")
+        
+        #User Winner
+        if vic_user == True: 
+            game = new_game()
+            if not game:
+                break
+
+        free_space = make_list_of_free_fields(board)
+        if free_space == False: 
+            if not game:
+                break
+
+        print("free", free_space)
+        user_move = draw_move(board, free_space)
+        vic_comp = victory_for(board, "X")
+
+        #Computer Winner
+        if vic_comp == True: 
+            game = new_game()
+            if not game:
+                break
+        
 # Initialize playing board and display
 def initialize_board():
     global board
+    global user_move
+    user_move = '1', '2', '3', '4', 'X', '6', '7', '8', '9'
     board = []
     empty = ""
+
     for i in range(3):
         row = [empty for i in range(3)]
         board.append(row)
@@ -181,8 +215,8 @@ def initialize_board():
     h = board[2][1] = "8"
     i = board[2][2] = "9"
 
-    ##for row in board: print(row)
-    ##print("board: ", board)
+    print("board: ", board)
+
     display_board(a,b,c,d,e,f,g,h,i)
     start_game(board)
 
